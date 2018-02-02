@@ -48,9 +48,42 @@ fn main()
     let _s : String = "the literal is not a string, but is converted".to_string();
     // Literals and slices are non-owning references to str, a different type.
     let _not_s : &str = "this is not a string.";
+    // Note the type here is constrained to 64 elements long. You can't have
+    // the length be unspecified unless you use a reference or some other
+    // kind of pointer. This is how functions take slice arguments.
     let mut _not_s_either : [u8; 64] = [0x0; 64];
+    let _a_slice_ref : &[u8] = &_not_s_either;
+    // You can have vectors
+    let mut _v = Vec::new();
+    _v.push("Isabel");
+    _v.push("Georgia");
+    _v.push("Madeleine");
+    assert_eq!(_v, vec!["Isabel", "Georgia", "Madeleine"]);
+    // and you can take slices of vectors...
+    let _vr = &_v[1..]; // Poor Isabel is not counted.
     let _fn_ptr : fn (i32, i32) -> i32 = i32::saturating_add;
     
+    let _long_text = "If you have a long message that you don't want to \
+        have run into a very long line, you can end the line with a \
+        and the newline character and space at the head of the next line \
+        will be trimmed.";
+    // Use b"text text text" for ascii byte sequences - don't have the same
+    // operations as strings. Raw byte sequences start br"blah blah".
+    
+    // For special string types (eg Filesystem objects, C interface) see pg 69 of the book.
+    
+    // If you have an object, you can box it (make a copy on the heap)
+    let _t = (12, "eggs");
+    let _box = Box::new(_t);
+    
+    // There are such things as "raw" pointers. They may only be
+    // dereferenced in an unsafe block.
+    // Syntax is *mut T, or *const T.
+    
+    // Use println macro 
+    println!("{}", _long_text);
+    
+    // There is a format! macro that produces new String objects
     // Structs, enums, boxes, tuples need their own section.
     // There are also vectors, "references to slices", trait objects
     // (these look like any other reference to me), and closures (whose type
